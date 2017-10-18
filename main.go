@@ -36,7 +36,7 @@ func main() {
 	parameters["query"] = "#book@proglib"
 	parameters["count"] = "100"
 	parameters["v"] = "5.68"
-	parameters["access_token"] = "463cb4750555a2d9609f220bc056c9da82b8645572e9b6b6a766f63551307f5a74cbfc689b12a08b6bcf9"
+	parameters["access_token"] = "##################################"
 
 	fmt.Println("Get 'wall.search' request")
 	resp, errVk := vk.Request("wall.search", parameters)
