@@ -9,15 +9,15 @@ import (
 type StructureGroups struct {
 	Id     int
 	Domain string
-	Query  string
 	LasId  int
 }
 
 var database *sql.DB
 
-func GetDB() *sql.DB {
+func OpenDB() *sql.DB {
 	if database == nil {
-		fmt.Print("Get data base \n\n")
+
+		fmt.Println("\x1b[30;1m[DB] Open data base\x1b[0m")
 
 		database, _ = sql.Open("sqlite3", "./parse.db")
 	}
@@ -26,17 +26,17 @@ func GetDB() *sql.DB {
 }
 
 func GetGroups() []StructureGroups {
-	database = GetDB()
+	database = OpenDB()
 
-	fmt.Print("Get get rows from groups \n\n")
+	fmt.Println("\x1b[30;1m[DB] Get get rows from groups\x1b[0m")
 
-	rows, _ := database.Query("SELECT id, domain, query, las_id FROM groups")
+	rows, _ := database.Query("SELECT id, domain, las_id FROM groups")
 
 	var elements []StructureGroups
 
 	for rows.Next() {
 		element := new(StructureGroups)
-		rows.Scan(&element.Id, &element.Domain, &element.Query, &element.LasId)
+		rows.Scan(&element.Id, &element.Domain, &element.LasId)
 		elements = append(elements, *element)
 	}
 
@@ -44,9 +44,9 @@ func GetGroups() []StructureGroups {
 }
 
 func SetLasIdToGroups (dataBaseId int, lasId int) {
-	database = GetDB()
+	database = OpenDB()
 
-	fmt.Print("Set las id to group: ", lasId, "\n\n")
+	fmt.Println("\x1b[30;1m[DB] Set las id to group: ", lasId, "\x1b[0m")
 
 	statement, _ := database.Prepare("UPDATE groups SET las_id = ? WHERE id = ?")
 	statement.Exec(lasId, dataBaseId)
