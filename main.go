@@ -14,10 +14,10 @@ import (
 )
 
 type DB struct {
-	Id int
+	Id     int
 	Domain string
-	Query string
-	LasId int
+	Query  string
+	LasId  int
 }
 
 type Doc struct {
@@ -29,7 +29,7 @@ type Message struct {
 	Response struct {
 		Count int
 		Items []struct {
-			Id int
+			Id          int
 			Attachments []struct {
 				Doc Doc
 			}
@@ -42,7 +42,7 @@ var nilDoc = Doc{}
 const access_token = "463cb4750555a2d9609f220bc056c9da82b8645572e9b6b6a766f63551307f5a74cbfc689b12a08b6bcf9"
 
 func getBook(offset int, db DB) int {
-	counter := 50
+	counter := 10
 
 	parameters := make(map[string]string)
 	parameters["domain"] = db.Domain
@@ -98,19 +98,18 @@ func getBook(offset int, db DB) int {
 	fmt.Print("Donloads", offset, "for", count, "elements... \n\n")
 
 	if count > offset {
-		return getBook(offset + counter, db)
+		return getBook(offset+counter, db)
 	}
 
 	return offset
 }
-
 
 var database *sql.DB
 
 func main() {
 	fmt.Print("Set https proxy \n\n")
 	os.Setenv("HTTPS_PROXY", "https://193.37.152.6:3128")
-	
+
 	fmt.Print("Open DB \n\n")
 	database, _ = sql.Open("sqlite3", "./parse.db")
 
